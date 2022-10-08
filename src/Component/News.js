@@ -36,6 +36,8 @@ const News = (props)=> {
     console.log(page)
   }
 
+  // newsUpdate();
+
   useEffect(()=> {
     newsUpdate();
   },[]);
@@ -115,7 +117,7 @@ const News = (props)=> {
   };
 
  
-    console.log('render')
+    // console.log('render')
     return (
       <>
         {/* <div className="container mb-5"> */}

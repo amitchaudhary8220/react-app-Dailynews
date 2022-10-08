@@ -1,9 +1,11 @@
 import React from 'react'
 
 
-const NewsItem =(props)=> {
+const NewsItem = (props) => {
+  
+  console.log(props);
  
-    let {title,description,imageUrl,url,date,author,source}= props;
+  let { title, description, imageUrl, url, date, author, source } = props;
     return (
       <div>
             {/* <span className="badge bg-danger">{source}</span> */}
