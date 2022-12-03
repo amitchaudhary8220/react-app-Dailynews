@@ -1,6 +1,7 @@
 {
-  "homepage": "https://amitchaudhary8220.github.io/newsapp",
+  
   "name": "newsapp",
+  "homepage": "https://amitchaudhary8220.github.io/react-app-Dailynews",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
