@@ -3,7 +3,7 @@ import React from 'react'
 
 const NewsItem = (props) => {
   
-  console.log(props);
+  // console.log(props);
  
   let { title, description, imageUrl, url, date, author, source } = props;
     return (

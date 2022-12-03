@@ -11,108 +11,75 @@ const News = (props)=> {
     const[page,setPage]=useState(1);
     const[loading,setLoading]=useState(true);
 
+  // console.log("number of times triggered");
   
  const capitalizeFirstLetter =(string)=> {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
+
   const newsUpdate  = async()=> { 
     props.setProgress(10)
 
     let url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page}&pageSize=${props.pageSize}`;
-     setLoading(true)
+
+    
+    //  setLoading(true)
    
     let data = await fetch(url);
     let fetchedData = await data.json();
 
-    console.log(fetchedData);
-    console.log(fetchedData.totalResults);
+    // console.log("data is ",data);
+
+    // console.log("fetched data is ",fetchedData);
+    // console.log("total result is ",fetchedData.totalResults);
+
 
     setArticles(fetchedData.articles)
     setTotalresults(fetchedData.totalResults)
+    // console.log("totalresutl is ",fetchedData.totalResults)
+
     setLoading(false)
 
    
     props.setProgress(100)
-    console.log(page)
+    // console.log("page is ",page)
   }
 
-  // newsUpdate();
 
-  useEffect(()=> {
+
+  //  newsUpdate();
+ 
+
+// it will only execute once after loading of whole component
+  // sequence will be first above code will load then below return will be laod then it will execute once 
+  
+  useEffect(() => {
+    console.log("rendered once");
     newsUpdate();
   },[]);
 
-  // const componentDidMount =  async ()=>{
-    // let url=`https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=164ceb7c116446c6b768c61ef9c3fd9c&pageSize=${props.pageSize}`;
-    // this.setState({loading:true})
-    // let data= await fetch(url);
-    // let fetchedData=await data.json();
+  
+  const fetchMoreData = async () => {
+    // console.log("inside fetched more ");
 
-    // console.log(fetchedData);
-    // console.log(fetchedData.totalResults);
-
-    // this.setState({articles:fetchedData.articles, 
-    //   totalResults:fetchedData.totalResults,
-    // loading:false});
-
-  //   this.newsUpdate();
-  // }
-
-
-  // triggerPrev = async () => {
-    // let url=`https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=164ceb7c116446c6b768c61ef9c3fd9c&page=${this.state.page-1}&pageSize=${props.pageSize}`;
-    // this.setState({loading:true})
-
-    // let data= await fetch(url);
-    // let fetchedData=await data.json();
-    // console.log("previous");
-    // this.setState({articles:fetchedData.articles,
-    //   page:this.state.page-1,
-    //   loading:false
-    // });
-
-  //   this.setState({ page: this.state.page - 1 });
-  //   this.newsUpdate();
-
-  // }
-
-
-  // triggerNext = async () => {
-    // if(this.state.page+1>Math.ceil(this.state.totalResults/20)){
-
-    // }
-
-
-
-    //   let url=`https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=164ceb7c116446c6b768c61ef9c3fd9c&page=${this.state.page+1}&pageSize=${props.pageSize}`;
-    // this.setState({loading:true})
-
-    //   let data= await fetch(url);
-    //   let fetchedData=await data.json();
-    //   console.log('next');
-    //   this.setState({articles:fetchedData.articles,page:this.state.page+1,
-    //   loading:false});
-
-  //   this.setState({ page: this.state.page + 1 })
-  //   console.log(this.state.page)
-  //   this.newsUpdate();
-
-  //   console.log(this.state.page)
-  // }
-
- const fetchMoreData = async () => {
-  setPage( page + 1)
-    let url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page+1}&pageSize=${props.pageSize}`;
-    setLoading({ loading: true })
+  setPage(page + 1)
+   let url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page + 1}&pageSize=${props.pageSize}`;
+   
+   setLoading(true);
    
     let data = await fetch(url);
-    let fetchedData = await data.json();
+   let fetchedData = await data.json();
    
-    setArticles(articles.concat(fetchedData.articles))
-    setTotalresults(fetchedData.totalResults)
+   
+     setArticles(articles.concat(fetchedData.articles))
+   
+  
+   setTotalresults(fetchedData.totalResults)
+    
+   
+   
     setLoading(false)
 
-    console.log(fetchedData)
 
   };
 
@@ -123,24 +90,29 @@ const News = (props)=> {
         {/* <div className="container mb-5"> */}
           <h1 className="text-center " style={{marginTop:'90px'}}>These are today's top headlines from  {capitalizeFirstLetter(props.category)} </h1>
 
-          {loading && <Spinner />}
+        {loading && <Spinner />}
+
+        {/* {console.log("inside return ")} */}
 
           <InfiniteScroll
               dataLength={articles.length}
               next={fetchMoreData}
               hasMore={articles.length !==totalResults}
-              loader={loading&&<Spinner />}
+              loader={loading&&<Spinner/>}
             >
-
+            
              <div className="container">
 
              
              <div className="row">
 
               {articles.map((element) => {
-
+            
+               
                 return <div className="col-md-4" key={element.url}>
+                
                   <NewsItem
+                    
                     title={element.title}
                     author={element.author}
                     date={element.publishedAt}
@@ -148,9 +120,16 @@ const News = (props)=> {
                     description={element.description}
                     imageUrl={element.urlToImage ? element.urlToImage : "https://images.livemint.com/img/2022/02/05/600x338/Rakesh_Jhunjhunwala_Reuters_1622431252074_1644040295288.jpg"}
                     url={element.url}
+
                   />
+                  
                 </div>
-              })}
+              }
+             
+              )
+              }
+                
+              
                </div>
                </div>
             </InfiniteScroll>
@@ -162,7 +141,8 @@ const News = (props)=> {
         <button type="button" disabled={this.state.page+1>Math.ceil(this.state.totalResults/props.pageSize)} className="btn btn-dark" onClick={this.triggerNext}>Next &#8594;</button>
         </div> */}
       </>
-    );
+  );
+  
   
 }
 
