@@ -47,7 +47,6 @@ const News = (props)=> {
 
 
 
-  //  newsUpdate();
  
 
 // it will only execute once after loading of whole component
@@ -56,7 +55,9 @@ const News = (props)=> {
   useEffect(() => {
     console.log("rendered once");
     newsUpdate();
-  },[]);
+    // eslint-disable-next-line
+  }, []);
+  
 
   
   const fetchMoreData = async () => {
